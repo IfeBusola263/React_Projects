@@ -54,7 +54,7 @@ function App() {
     })
   }
 
-  function handleProjectDeletion(id){
+  function handleProjectDeletion(){
     setProjectState(prevProjectState => {
       return {
         ...prevProjectState,
