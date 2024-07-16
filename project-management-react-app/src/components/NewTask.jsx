@@ -1,8 +1,31 @@
-export default function NewTasks(){
+import { useState } from "react";
+
+export default function NewTasks({onAdd}){
+
+    const [enteredTask, setEnteredTask] = useState('');
+
+    function extractTaskInput(event){
+        setEnteredTask(event.target.value);
+    }
+
+    function handleTaskInfoTransfer(){
+
+        if (enteredTask.trim() !== ''){
+            onAdd(enteredTask);
+            setEnteredTask('');
+        }
+    }
+
+
     return (
         <div className="flex items-center gap-4">
-            <input type="text" name="" id="" className="w-64 px-2 py-1 rounded-sm bg-stone-200" />
-            <button className="text-stone-700 hover:text-stone-950" >Add New Task</button>
+            <input 
+            type="text" 
+            className="w-64 px-2 py-1 rounded-sm bg-stone-200"
+            onChange={extractTaskInput}
+            value={enteredTask}
+            />
+            <button onClick={handleTaskInfoTransfer} className="text-stone-700 hover:text-stone-950" >Add New Task</button>
         </div>
     )
 }

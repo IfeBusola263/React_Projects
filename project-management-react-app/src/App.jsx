@@ -8,7 +8,8 @@ function App() {
 
   const [projectState, setProjectState] = useState({
     selectedProjectId: undefined,
-    projects: []
+    projects: [],
+    tasks: []
   })
 
   function handleStartAddProject(){
@@ -63,12 +64,43 @@ function App() {
       }
     })
   }
+
+  function handleAddTask(inputText){
+    setProjectState(prevProjectState => {
+
+      const newTask = {
+        text: inputText,
+        id: Math.random(),
+        projectId: prevProjectState.selectedProjectId
+      }
+
+      return {
+        ...prevProjectState,
+        tasks: [newTask, ...prevProjectState.tasks]
+      }
+    })
+  }
+
+  function handleDeleteTask(id){
+    setProjectState(prevProjectState => {
+      return {
+        ...prevProjectState,
+        tasks: prevProjectState.tasks.filter(task => task.id !== id)
+      }
+    })
+  }
    
   // Find the project that was selected in the array of projects using the set selected projectID
   // in the state object projectState
   const selectedProject = projectState.projects.find(project => project.id === projectState.selectedProjectId)
 
-  let content = <SelectedProjects project={selectedProject} onDelete={handleProjectDeletion} />;
+  let content = <SelectedProjects 
+                project={selectedProject} 
+                onDelete={handleProjectDeletion} 
+                onAddTask={handleAddTask}
+                onDeleteTask={handleDeleteTask}
+                tasks={projectState.tasks}
+                />;
 
   // set the selected Project ID not null or undefined to determine which component is rendered
   if (projectState.selectedProjectId === null){
@@ -83,6 +115,7 @@ function App() {
         projects={projectState.projects} 
         onStartAddProject={handleStartAddProject} 
         onSelectProject={handleSelectProject}
+        selectedProjectId={projectState.selectedProjectId}
         />
       {content}
     </main>
