@@ -4,7 +4,6 @@ import { Suspense } from 'react';
 
 function EventsPage() {
     const { events } = useLoaderData();
-    console.log(events);
   return (
     <Suspense fallback={<p style={{textAlign: 'center'}}>loading...</p>}>
       <Await resolve={events}>
